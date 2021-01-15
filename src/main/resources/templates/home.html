@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Soda Machine</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<div class="vending-machine">
+
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Soda Machine</span>
+        <span class="navbar-brand mb-0 h1">&nbsp;</span>
+        <span class="navbar-brand mb-0 h1" th:text="${'Current Balance: $' + model.vendingMachineData.currentBalance}"></span>
+    </nav>
+
+    <div th:if="${model.orderStatus == 'success'}" class="container mt-4 pt-3">
+        <div class="alert alert-success" role="alert">
+            Thank you for your purchase!
+        </div>
+    </div>
+
+    <div th:if="${model.orderStatus == 'failure'}" class="container mt-4 pt-3">
+        <div class="alert alert-danger" role="alert">
+            Sorry, an error occurred, please try again later.
+        </div>
+    </div>
+
+    <div class="container mt-4 pt-4">
+        <table class="table" style="font-size:24px;">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${model.vendingMachineData.inventorySummary}">
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.price + '&cent;'}"></td>
+                    <td th:text="${product.stock}"></td>
+                    <td th:if="${model.vendingMachineData.currentBalance < product.price}"></td>
+                    <td th:if="${model.vendingMachineData.currentBalance >= product.price}">
+                        <a class="btn btn-success" th:if="${product.stock > 0}" th:href="${'/order?name='+product.name}">Order</a>
+                        <span disabled th:if="${product.stock < 1}">Out of Stock</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container d-flex justify-content-center pt-5 pb-3">
+        <a th:href="${'/insert-quarter'}" class="btn btn-primary btn-lg" style="width:150px;">Insert 25&cent;</a>
+    </div>
+    <div class="container d-flex justify-content-center">
+        <a th:href="${'/remove-quarter'}" th:if="${model.vendingMachineData.currentBalance != null && model.vendingMachineData.currentBalance >= 0.25}" class="btn btn-secondary btn-lg" style="width:150px;">Remove 25&cent;</a>
+    </div>
+
+</div>
+
+</body>
+
+</html>
