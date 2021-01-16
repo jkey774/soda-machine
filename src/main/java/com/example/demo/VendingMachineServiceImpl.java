@@ -26,25 +26,25 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         return vendingMachineService.submitOrder(productName);
     }
 
-    public Product getProduct(String id) {
-        Product[] inventorySummary = fetchInventorySummary();
-        Product product = null;
-        for (Product item : inventorySummary) {
-            if (StringUtils.equals(item.getName(), id)) {
-                product = item;
-                break;
-            }
-        }
-        return product;
-    }
-
-    public double getTotalProductCount() {
-        Product[] inventorySummary = fetchInventorySummary();
-        double count = 0;
-        for (Product product : inventorySummary) {
-            count += product.getStock();
-        }
-        return count;
-    }
+//    public Product getProduct(String id) {
+//        Product[] inventorySummary = fetchInventorySummary();
+//        Product product = null;
+//        for (Product item : inventorySummary) {
+//            if (StringUtils.equals(item.getName(), id)) {
+//                product = item;
+//                break;
+//            }
+//        }
+//        return product;
+//    }
+//
+//    public double getTotalProductCount() {
+//        Product[] inventorySummary = fetchInventorySummary();
+//        double count = 0;
+//        for (Product product : inventorySummary) {
+//            count += product.getStock();
+//        }
+//        return count;
+//    }
 
 }
