@@ -6,6 +6,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.concurrent.ExecutionException;
+
 @Controller
 @Scope("session")
 public class VendingMachineController {
@@ -15,8 +17,12 @@ public class VendingMachineController {
     private VendingMachineData vendingMachineData = new VendingMachineData();
 
     @GetMapping("/")
-    public ModelAndView home(@RequestParam(name="order", required=false, defaultValue="") String orderStatus) {
-        vendingMachineData.setInventorySummary(vendingMachineService.fetchInventorySummary());
+    public ModelAndView home(@RequestParam(name="orderStatus", required=false, defaultValue="") String orderStatus) {
+        try {
+            vendingMachineData.setInventorySummary(vendingMachineService.fetchInventorySummary());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ModelMap modelMap = new ModelMap();
         modelMap.put("vendingMachineData", vendingMachineData);
         modelMap.put("orderStatus", orderStatus);
@@ -46,11 +52,11 @@ public class VendingMachineController {
             vendingMachineData.setCurrentBalance(vendingMachineData.getCurrentBalance() - purchasedProduct.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ModelAndView("redirect:/?order=failure", "model", "");
+            return new ModelAndView("redirect:/?orderStatus=failure", "model", "");
         }
         ModelMap modelMap = new ModelMap();
         modelMap.put("vendingMachineData", vendingMachineData);
-        return new ModelAndView("redirect:/?order=success", "model", modelMap);
+        return new ModelAndView("redirect:/?orderStatus=success", "model", modelMap);
     }
 
 }
