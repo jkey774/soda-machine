@@ -24,23 +24,24 @@
         </div>
     </div>
 
-    <div th:if="${model.vendingMachineData == null || model.vendingMachineData.inventorySummary == null || model.orderStatus == 'failure'}" class="container mt-4 pt-3">
+    <div th:if="${model.vendingMachineData.inventorySummary == null || model.orderStatus == 'failure'}" class="container mt-4 pt-3">
         <div class="alert alert-danger" role="alert">
             Sorry, an error occurred, please try again later.
         </div>
     </div>
 
-    <div th:if="${model.vendingMachineData != null && model.vendingMachineData.inventorySummary != null}" class="container mt-4 pt-4">
-        <table class="table" style="font-size:24px;">
-            <thead>
+    <div th:if="${model.vendingMachineData.inventorySummary != null}">
+        <div class="container mt-4 pt-4">
+            <table class="table" style="font-size:24px;">
+                <thead>
                 <tr>
                     <th>Product</th>
                     <th>Price</th>
                     <th>Stock</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr th:each="product : ${model.vendingMachineData.inventorySummary}">
                     <td th:text="${product.name}"></td>
                     <td th:text="${product.price + '&cent;'}"></td>
@@ -51,15 +52,16 @@
                         <span disabled th:if="${product.stock < 1}">Out of Stock</span>
                     </td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
 
-    <div class="container d-flex justify-content-center pt-5 pb-3">
-        <a th:href="${'/insert-quarter'}" class="btn btn-primary btn-lg" style="width:150px;">Insert 25&cent;</a>
-    </div>
-    <div class="container d-flex justify-content-center">
-        <a th:href="${'/remove-quarter'}" th:if="${model.vendingMachineData.currentBalance != null && model.vendingMachineData.currentBalance >= 0.25}" class="btn btn-secondary btn-lg" style="width:150px;">Remove 25&cent;</a>
+        <div class="container d-flex justify-content-center pt-5 pb-3">
+            <a th:href="${'/insert-quarter'}" class="btn btn-primary btn-lg" style="width:150px;">Insert 25&cent;</a>
+        </div>
+        <div class="container d-flex justify-content-center">
+            <a th:href="${'/remove-quarter'}" th:if="${model.vendingMachineData.currentBalance != null && model.vendingMachineData.currentBalance >= 0.25}" class="btn btn-secondary btn-lg" style="width:150px;">Remove 25&cent;</a>
+        </div>
     </div>
 
 </div>
