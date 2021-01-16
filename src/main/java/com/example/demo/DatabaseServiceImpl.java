@@ -60,7 +60,8 @@ public class DatabaseServiceImpl implements DatabaseService {
 //    public List<Product> getFullInventory() throws InterruptedException, ExecutionException {
 //
 //    }
-
+    
+    @Override
     public Product getProduct(String id) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docReference = db.collection(COL_INVENTORY).document(id);
