@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.concurrent.ExecutionException;
 
 public class VendingMachineServiceImpl implements VendingMachineService {
@@ -9,16 +7,8 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     private static final DatabaseServiceImpl vendingMachineService = new DatabaseServiceImpl();
 
     @Override
-    public Product[] fetchInventorySummary() {
-        Product[] inventorySummary = null;
-        try {
-            inventorySummary = vendingMachineService.getInventorySummary();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return inventorySummary;
+    public Product[] fetchInventorySummary() throws ExecutionException, InterruptedException {
+        return vendingMachineService.getInventorySummary();
     }
 
     @Override
