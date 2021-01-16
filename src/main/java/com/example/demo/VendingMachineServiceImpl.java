@@ -6,13 +6,13 @@ import java.util.concurrent.ExecutionException;
 
 public class VendingMachineServiceImpl implements VendingMachineService {
 
-    private static final DatabaseServiceImpl databaseServiceImpl = new DatabaseServiceImpl();
+    private static final DatabaseServiceImpl vendingMachineService = new DatabaseServiceImpl();
 
     @Override
     public Product[] fetchInventorySummary() {
         Product[] inventorySummary = null;
         try {
-            inventorySummary = databaseServiceImpl.getInventorySummary();
+            inventorySummary = vendingMachineService.getInventorySummary();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -23,7 +23,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     @Override
     public Product submitOrder(String productName) throws ExecutionException, InterruptedException {
-        return databaseServiceImpl.submitOrder(productName);
+        return vendingMachineService.submitOrder(productName);
     }
 
     public Product getProduct(String id) {
