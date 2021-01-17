@@ -22,8 +22,7 @@ public class DatabaseServiceImpl implements DatabaseService {
         ApiFuture<QuerySnapshot> productCategoriesFuture = db.collection(COL_INVENTORY).get();
         List<QueryDocumentSnapshot> productCategoryDocs = productCategoriesFuture.get().getDocuments();
         Product purchasedProduct = null;
-        for (int i = 0; i < productCategoryDocs.size(); i++) {
-            QueryDocumentSnapshot productCategoryDoc = productCategoryDocs.get(i);
+        for (QueryDocumentSnapshot productCategoryDoc : productCategoryDocs) {
             if (StringUtils.equals(productCategoryDoc.getString("name"), productName)) {
                 purchasedProduct = productCategoryDoc.toObject(Product.class);
                 String UUID = productCategoryDoc.getId();
@@ -34,11 +33,11 @@ public class DatabaseServiceImpl implements DatabaseService {
             }
         }
 
-        Instant instant = Instant.now();
-        long timeStampMillis = instant.toEpochMilli();
-        purchasedProduct.setPurchasedAt(timeStampMillis);
-        ApiFuture<WriteResult> salesRecordFuture = db.collection(COL_ORDERS).document().set(purchasedProduct);
-        salesRecordFuture.get();
+        if (purchasedProduct != null) {
+            purchasedProduct.setPurchasedAt(Instant.now().toEpochMilli());
+            ApiFuture<WriteResult> salesRecordFuture = db.collection(COL_ORDERS).document().set(purchasedProduct);
+            salesRecordFuture.get();
+        }
 
         return purchasedProduct;
     }
