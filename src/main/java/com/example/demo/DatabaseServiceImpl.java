@@ -45,8 +45,7 @@ public class DatabaseServiceImpl implements DatabaseService {
         if (product == null)
             return null;
 
-        product.setStock(product.getStock() - 1);
-        ApiFuture<WriteResult> productWriteFuture = productRef.set(product);
+        ApiFuture<WriteResult> productWriteFuture = productRef.update("stock", product.getStock() - 1);
         productWriteFuture.get();
 
         Order order = new Order();
