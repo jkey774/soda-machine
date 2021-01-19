@@ -3,6 +3,6 @@ package com.example.demo;
 import java.util.concurrent.ExecutionException;
 
 public interface VendingMachineService {
-    Product[] fetchInventorySummary() throws ExecutionException, InterruptedException;
-    Product submitOrder(String productName) throws ExecutionException, InterruptedException;
+    Product[] fetchProducts() throws ExecutionException, InterruptedException;
+    Order submitOrder(String name) throws ExecutionException, InterruptedException;
 }

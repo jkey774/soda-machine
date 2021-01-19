@@ -1,40 +1,25 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class VendingMachineServiceImpl implements VendingMachineService {
 
-    private static final DatabaseServiceImpl databaseService = new DatabaseServiceImpl();
+    @Autowired
+    private DatabaseServiceImpl databaseService;
+
 
     @Override
-    public Product[] fetchInventorySummary() throws ExecutionException, InterruptedException {
-        return databaseService.getInventorySummary();
+    public Product[] fetchProducts() throws ExecutionException, InterruptedException {
+        return databaseService.getProducts();
     }
 
     @Override
-    public Product submitOrder(String productName) throws ExecutionException, InterruptedException {
-        return databaseService.submitOrder(productName);
+    public Order submitOrder(String productId) throws ExecutionException, InterruptedException {
+        return databaseService.submitOrder(productId);
     }
-
-//    public Product getProduct(String id) {
-//        Product[] inventorySummary = fetchInventorySummary();
-//        Product product = null;
-//        for (Product item : inventorySummary) {
-//            if (StringUtils.equals(item.getName(), id)) {
-//                product = item;
-//                break;
-//            }
-//        }
-//        return product;
-//    }
-//
-//    public double getTotalProductCount() {
-//        Product[] inventorySummary = fetchInventorySummary();
-//        double count = 0;
-//        for (Product product : inventorySummary) {
-//            count += product.getStock();
-//        }
-//        return count;
-//    }
 
 }

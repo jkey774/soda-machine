@@ -1,26 +1,15 @@
 package com.example.demo;
 
 import com.google.cloud.Timestamp;
-import org.springframework.stereotype.Component;
+import com.google.cloud.firestore.FieldValue;
 
-@Component
-public class Product {
-
-    private String id;
+public class Order {
 
     private String name;
 
     private double price;
 
-    private int stock;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private FieldValue timestamp;
 
     public String getName() {
         return name;
@@ -38,13 +27,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getStock() {
-        return stock;
+    public FieldValue getTimestamp() {
+        return timestamp;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setTimestamp(FieldValue timestamp) {
+        this.timestamp = timestamp;
     }
-
-
 }

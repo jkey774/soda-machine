@@ -1,62 +1,66 @@
 package com.example.demo;
 
+import com.google.api.core.ApiFuture;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Controller
 @Scope("session")
 public class VendingMachineController {
 
-    private static final VendingMachineServiceImpl vendingMachineService = new VendingMachineServiceImpl();
+    private static final double PAYMENT_AMOUNT = 0.25;
 
-    private VendingMachineData vendingMachineData = new VendingMachineData();
+    @Autowired
+    private VendingMachineService vendingMachineService;
+
+    @Autowired
+    private VendingMachine vendingMachine;
 
     @GetMapping("/")
     public ModelAndView home(@RequestParam(name="orderStatus", required=false, defaultValue="") String orderStatus) {
         try {
-            vendingMachineData.setInventorySummary(vendingMachineService.fetchInventorySummary());
+            vendingMachine.setProducts(vendingMachineService.fetchProducts());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ModelMap modelMap = new ModelMap();
-        modelMap.put("vendingMachineData", vendingMachineData);
-        modelMap.put("orderStatus", orderStatus);
-        return new ModelAndView("home", "model", modelMap);
+        vendingMachine.setOrderStatus(orderStatus);
+        return new ModelAndView("home", "vendingMachine", vendingMachine);
     }
 
-    @RequestMapping("/insert-quarter")
+    @RequestMapping("/insert-payment")
     public ModelAndView submitPayment() {
-        vendingMachineData.setCurrentBalance(vendingMachineData.getCurrentBalance() + 0.25);
-        ModelMap modelMap = new ModelMap();
-        modelMap.put("vendingMachineData", vendingMachineData);
-        return new ModelAndView("redirect:/", "model", modelMap);
+        vendingMachine.setCurrentBalance(vendingMachine.getCurrentBalance() + PAYMENT_AMOUNT);
+        return new ModelAndView("redirect:/", "vendingMachine", vendingMachine);
     }
 
-    @RequestMapping("/remove-quarter")
+    @RequestMapping("/remove-payment")
     public ModelAndView withdrawPayment() {
-        vendingMachineData.setCurrentBalance(vendingMachineData.getCurrentBalance() - 0.25);
-        ModelMap modelMap = new ModelMap();
-        modelMap.put("vendingMachineData", vendingMachineData);
-        return new ModelAndView("redirect:/", "model", modelMap);
+        vendingMachine.setCurrentBalance(vendingMachine.getCurrentBalance() - PAYMENT_AMOUNT);
+        return new ModelAndView("redirect:/", "vendingMachine", vendingMachine);
     }
 
     @RequestMapping("/order")
-    public ModelAndView order(@RequestParam(name="name") String id) {
+    public ModelAndView submitOrder(@RequestParam(name="id") String id) {
+        Order order = null;
         try {
-            Product purchasedProduct = vendingMachineService.submitOrder(id);
-            vendingMachineData.setCurrentBalance(vendingMachineData.getCurrentBalance() - purchasedProduct.getPrice());
+            order = vendingMachineService.submitOrder(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ModelAndView("redirect:/?orderStatus=failure", "model", "");
         }
-        ModelMap modelMap = new ModelMap();
-        modelMap.put("vendingMachineData", vendingMachineData);
-        return new ModelAndView("redirect:/?orderStatus=success", "model", modelMap);
+        if (order != null) {
+            vendingMachine.setCurrentBalance(vendingMachine.getCurrentBalance() - order.getPrice());
+            return new ModelAndView("redirect:/?orderStatus=success", "vendingMachine", vendingMachine);
+        } else {
+            return new ModelAndView("redirect:/?orderStatus=failure", "vendingMachine", vendingMachine);
+        }
     }
 
 }
