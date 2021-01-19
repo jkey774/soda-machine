@@ -4,16 +4,16 @@ import java.util.concurrent.ExecutionException;
 
 public class VendingMachineServiceImpl implements VendingMachineService {
 
-    private static final DatabaseServiceImpl vendingMachineService = new DatabaseServiceImpl();
+    private static final DatabaseServiceImpl databaseService = new DatabaseServiceImpl();
 
     @Override
     public Product[] fetchInventorySummary() throws ExecutionException, InterruptedException {
-        return vendingMachineService.getInventorySummary();
+        return databaseService.getInventorySummary();
     }
 
     @Override
     public Product submitOrder(String productName) throws ExecutionException, InterruptedException {
-        return vendingMachineService.submitOrder(productName);
+        return databaseService.submitOrder(productName);
     }
 
 //    public Product getProduct(String id) {
