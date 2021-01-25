@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.FieldValue;
 
 public class Order {
