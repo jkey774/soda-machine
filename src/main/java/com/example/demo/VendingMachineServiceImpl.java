@@ -9,7 +9,8 @@ import java.util.concurrent.ExecutionException;
 public class VendingMachineServiceImpl implements VendingMachineService {
 
     @Autowired
-    private DatabaseServiceImpl databaseService;
+    private DatabaseService databaseService;
+    //private DatabaseServiceImpl databaseService;
 
 
     @Override

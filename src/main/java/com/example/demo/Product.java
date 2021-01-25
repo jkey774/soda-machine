@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.google.cloud.Timestamp;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,9 +13,7 @@ public class Product {
 
     private int stock;
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
     public void setId(String id) {
         this.id = id;
@@ -26,9 +23,7 @@ public class Product {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     public double getPrice() {
         return price;
@@ -45,6 +40,5 @@ public class Product {
     public void setStock(int stock) {
         this.stock = stock;
     }
-
 
 }
