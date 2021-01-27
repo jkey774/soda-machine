@@ -3,7 +3,7 @@ package com.example.demo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Product {
+public final class Product {
 
     private String id;
 
@@ -41,4 +41,14 @@ public class Product {
         this.stock = stock;
     }
 
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                '}';
+    }
 }

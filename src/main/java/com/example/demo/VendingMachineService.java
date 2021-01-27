@@ -4,7 +4,10 @@ import java.util.concurrent.ExecutionException;
 
 public interface VendingMachineService {
 
+    Product fetchProduct(String productId) throws ExecutionException, InterruptedException;
+
     Product[] fetchProducts() throws ExecutionException, InterruptedException;
-    Order submitOrder(String name) throws ExecutionException, InterruptedException;
+
+    void submitOrder(Product product) throws ExecutionException, InterruptedException;
 
 }

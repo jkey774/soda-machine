@@ -43,18 +43,17 @@ public class VendingMachineController {
 
     @RequestMapping("/order")
     public ModelAndView submitOrder(@RequestParam(name="id") String id) {
-        Order order = null;
+
         try {
-            order = vendingMachineService.submitOrder(id);
+            Product product = vendingMachineService.fetchProduct(id);
+            vendingMachineService.submitOrder(product);
+            vendingMachine.setCurrentBalance(vendingMachine.getCurrentBalance() - product.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (order != null) {
-            vendingMachine.setCurrentBalance(vendingMachine.getCurrentBalance() - order.getPrice());
-            return new ModelAndView("redirect:/?orderStatus=success", "vendingMachine", vendingMachine);
-        } else {
             return new ModelAndView("redirect:/?orderStatus=failure", "vendingMachine", vendingMachine);
         }
+
+        return new ModelAndView("redirect:/?orderStatus=success", "vendingMachine", vendingMachine);
     }
 
 }
