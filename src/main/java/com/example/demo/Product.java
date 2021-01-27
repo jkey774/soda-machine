@@ -3,7 +3,7 @@ package com.example.demo;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class Product {
+public class Product {
 
     private String id;
 
