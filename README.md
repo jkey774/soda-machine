@@ -14,7 +14,7 @@ But these manufacturers are soda machine experts, not software developers and ne
 
 Here’s the way we think the soda machine controller needs to work.  We’re hoping that you can implement this in Java for us. We may be adding more behavior in the future, so you need to keep the design as flexible and maintainable as possible.
 
-[image here]
+![Alt text](/../jkey774-exercise-diagram/exercise-diagram.jpg?raw=true "exercise-diagram")
 
 As depicted in the diagram above the following actions, behaviors and state transitions can happen.
 
