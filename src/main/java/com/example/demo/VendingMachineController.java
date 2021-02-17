@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +11,14 @@ public class VendingMachineController {
 
     private static final double PAYMENT_AMOUNT = 0.25;
 
-    @Autowired
-    private VendingMachineService vendingMachineService;
+    private final VendingMachineService vendingMachineService = new VendingMachineServiceImpl(new VendingMachineRepositoryImpl());
 
-    @Autowired
-    private VendingMachine vendingMachine;
+    private final VendingMachine vendingMachine = new VendingMachine(vendingMachineService);
 
     @GetMapping("/")
     public ModelAndView home(@RequestParam(name="orderStatus", required=false, defaultValue="") String orderStatus) {
         try {
-            vendingMachine.setProducts(vendingMachineService.fetchProducts());
+            vendingMachine.setProducts(vendingMachine.fetchProducts());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,8 +42,8 @@ public class VendingMachineController {
     public ModelAndView submitOrder(@RequestParam(name="id") String id) {
 
         try {
-            Product product = vendingMachineService.fetchProduct(id);
-            vendingMachineService.submitOrder(product);
+            Product product = vendingMachine.fetchProduct(id);
+            vendingMachine.submitOrder(product);
             vendingMachine.setCurrentBalance(vendingMachine.getCurrentBalance() - product.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
