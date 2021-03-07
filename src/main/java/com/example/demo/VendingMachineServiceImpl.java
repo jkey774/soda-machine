@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -9,6 +10,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     private final VendingMachineRepository repository;
 
+    @Autowired
     public VendingMachineServiceImpl(VendingMachineRepository repository) {
         this.repository = repository;
     }
