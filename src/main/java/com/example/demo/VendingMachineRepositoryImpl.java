@@ -51,7 +51,7 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepository {
 
         ApiFuture<Void> orderTransaction = db.runTransaction(transaction -> {
             DocumentSnapshot productSnapshot = transaction.get(productRef).get();
-            Integer oldStock = (Integer) productSnapshot.get(PRODUCT_STOCK_FIELD);
+            Long oldStock = productSnapshot.getLong(PRODUCT_STOCK_FIELD);
             if (oldStock == null)
                 return null;
 
